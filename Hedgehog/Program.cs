@@ -11,15 +11,17 @@ public class Program
 
             try
             {
-                var input = new HedgehogInput();
-                input.ReadInput();
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
                 GC.Collect();
+                var input = new HedgehogInput();
+                input.ReadInput();
 
-                long memBefore = GC.GetTotalMemory(true);
-                var stopwatch = Stopwatch.StartNew();
+
+                //long memBefore = GC.GetTotalMemory(true);
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
                 if (input.Population == null) { throw new Exception("Популяція відсутня"); }
                 var forest = new Forest(input.Population, input.TargetColor);
                 int result = forest.MinMeetingsToUnify();
@@ -28,8 +30,8 @@ public class Program
                 long memAfter = GC.GetTotalMemory(true);
 
                 Console.WriteLine($"\nМiнiмальна кiлькiсть зустрiчей: {result}");
-                Console.WriteLine($"Час виконання: {stopwatch.ElapsedMilliseconds} мс");
-                Console.WriteLine($"Видiлено пам'ятi: {Math.Abs(memAfter - memBefore)} байт");
+                Console.WriteLine($"Час виконання: {stopwatch.Elapsed.TotalMilliseconds.ToString()} мс");
+                Console.WriteLine($"Видiлено пам'ятi: {Math.Abs(memAfter)} байт");
             }
             catch (Exception ex)
             {

@@ -26,9 +26,13 @@ namespace Hedgehog.Models
             Population = new Hedgehog(counts[0], counts[1], counts[2]);
 
             Console.WriteLine("Введiть бажаний колiр (0 - червоний, 1 - зелений, 2 - синiй):");
-            string targetInput = Console.ReadLine() ?? "";
+            string targetInput = Console.ReadLine()?.Trim() ?? "";
+            if (targetInput.Length > 1)
+                throw new ArgumentException("Введене некоректний колiр");
+
             if (!int.TryParse(targetInput, out int target) || target < 0 || target > 2)
                 throw new ArgumentException("Невiрний колiр. Введiть число вiд 0 до 2.");
+
 
             TargetColor = target;
         }
